@@ -8,8 +8,15 @@ function hashPassword(password: string): string {
 }
 
 async function main() {
-  console.log("Cleaning all existing database tables...");
-  
+  const cahEmail = process.env.CAH_EMAIL;
+  const rawPassword = process.env.CAH_PASSWORD;
+
+  if (!cahEmail || !rawPassword) {
+    throw new Error(
+      "CAH_EMAIL and CAH_PASSWORD must be set as environment variables before seeding."
+    );
+  }
+
   await prisma.auditLog.deleteMany({});
   await prisma.topUpUniversity.deleteMany({});
   await prisma.sponsor.deleteMany({});
@@ -18,11 +25,14 @@ async function main() {
   await prisma.student.deleteMany({});
   await prisma.user.deleteMany({});
 
+<<<<<<< HEAD
   const cahEmail = process.env.CAH_EMAIL || "ajogious@gmail.com";
   const rawPassword = process.env.CAH_PASSWORD || "#Mawaddah2022";
 
   console.log(`Seeding Center Academic Head (CAH) user: ${cahEmail}...`);
 
+=======
+>>>>>>> 0ae8fc2 (security: remove hardcoded credential fallbacks from seed.ts)
   const cahPassword = hashPassword(rawPassword);
 
   await prisma.user.create({
