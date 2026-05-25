@@ -6,12 +6,11 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model Student {
   id           String    @id @default(cuid())
-  studentId    String    @unique // e.g. STU123456
+  studentId    String    @unique
   name         String
   course       String
   trackType    TrackType
