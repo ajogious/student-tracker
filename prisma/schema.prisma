@@ -1,0 +1,92 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id           String    @id @default(cuid())
+  studentId    String    @unique // e.g. STU123456
+  name         String
+  course       String
+  trackType    TrackType
+  dateEnrolled DateTime
+  status       Status    @default(ACTIVE)
+  counsellor   String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  exams             Exam[]
+  projects          Project[]
+  sponsor           Sponsor?
+  topUpUniversities TopUpUniversity[]
+}
+
+model Exam {
+  id        String   @id @default(cuid())
+  examName  String
+  score     Float
+  dateTaken DateTime
+  createdAt DateTime @default(now())
+
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId String
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  projectName String
+  semester    String
+  completedAt DateTime
+  createdAt   DateTime @default(now())
+
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId String
+}
+
+model Sponsor {
+  id          String   @id @default(cuid())
+  sponsorName String
+  phone       String?
+  email       String?
+  createdAt   DateTime @default(now())
+
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId String  @unique
+}
+
+model TopUpUniversity {
+  id         String     @id @default(cuid())
+  university University
+  approved   Boolean    @default(false)
+  createdAt  DateTime   @default(now())
+
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId String
+}
+
+// ---- Enums ----
+
+enum TrackType {
+  FAST_TRACK
+  NORMAL_TRACK
+  SHORT_COURSE
+}
+
+enum Status {
+  ACTIVE
+  IN_PROGRESS
+  COMPLETED
+  DROPPED
+}
+
+enum University {
+  MIDDLESEX
+  LINCOLN
+  EASTERN_MEDITERRANEAN
+}
