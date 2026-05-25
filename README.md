@@ -5,11 +5,11 @@ A premium, secure web application designed for Center Academic Heads (CAH) to tr
 ## 🚀 Features
 
 - **🔑 Secure Session Authentication**: Cookie-based login with cryptographic signature verification (HMAC-SHA256) to prevent session tampering.
-- **🛡️ Role-Based Access Controls**: 
+- **🛡️ Role-Based Access Controls**:
   - **Center Academic Head (CAH)**: Full read, write, edit, and deletion privileges.
   - **Staff Members**: Authorized to view and update student records, but restricted from deleting data.
 - **📝 Exam & Project Tracking**: Complete CRUD (Create, Read, Update, Delete) capability on individual exams and semester projects.
-- **📅 Update History (Audit Trail)**: Dynamic transactional logs tracking every student profile change, capturing *what* was modified, *when*, and *who* did it.
+- **📅 Update History (Audit Trail)**: Dynamic transactional logs tracking every student profile change, capturing _what_ was modified, _when_, and _who_ did it.
 - **📤 Export & PDF Print Reports**: One-click dashboard data exports to CSV, and highly styled `@media print` layout formatting for printing student registrations as official paper sheets.
 - **⚡ Premium UX/UI**: Mobile-responsive layout, Next.js streaming skeletons, and glassmorphic micro-animations.
 
@@ -30,29 +30,33 @@ A premium, secure web application designed for Center Academic Heads (CAH) to tr
 1. **Clone the Repository** and navigate to the project directory.
 
 2. **Install Dependencies**:
+
    ```bash
    npm install
    ```
 
 3. **Configure Environment Variables**:
    Create a `.env` file in the root directory:
+
    ```env
    DATABASE_URL="your-postgresql-connection-string"
    SESSION_SECRET="your-32-character-random-secret"
    ```
 
 4. **Initialize Database Schema & Generate Prisma Client**:
+
    ```bash
    npx prisma db push
    ```
 
 5. **Seed the CAH Admin User**:
+   Ensure your `.env` file includes `ADMIN_EMAIL` and `ADMIN_PASSWORD` (see Environment Variables above), then run:
+
    ```bash
    node prisma/seed.js
    ```
-   *Seeded account details:*
-   - **Email**: `ajogious@gmail.com`
-   - **Password**: `#Mawaddah2022`
+
+   This will create the CAH admin account using the credentials from your environment.
 
 6. **Start the Development Server**:
    ```bash

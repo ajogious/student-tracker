@@ -459,7 +459,7 @@ export default function StudentProfileClient({
         </div>
 
         {/* Action buttons */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center flex-wrap gap-2">
           {userRole === "ADMIN" && (
             <Button 
               variant="outline" 
