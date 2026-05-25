@@ -24,15 +24,6 @@ async function main() {
   await prisma.project.deleteMany({});
   await prisma.student.deleteMany({});
   await prisma.user.deleteMany({});
-
-<<<<<<< HEAD
-  const cahEmail = process.env.CAH_EMAIL || "ajogious@gmail.com";
-  const rawPassword = process.env.CAH_PASSWORD || "#Mawaddah2022";
-
-  console.log(`Seeding Center Academic Head (CAH) user: ${cahEmail}...`);
-
-=======
->>>>>>> 0ae8fc2 (security: remove hardcoded credential fallbacks from seed.ts)
   const cahPassword = hashPassword(rawPassword);
 
   await prisma.user.create({
