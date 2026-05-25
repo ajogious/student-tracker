@@ -128,3 +128,49 @@
     @apply font-sans;
   }
 }
+
+/* ======================== PRINT MEDIA STYLES ======================== */
+@media print {
+  header,
+  nav,
+  .print\:hidden,
+  button,
+  select {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .border {
+    border-color: rgba(0, 0, 0, 0.25) !important;
+  }
+
+  .bg-card,
+  .bg-card\/60 {
+    background-color: transparent !important;
+    border-color: rgba(0, 0, 0, 0.25) !important;
+    box-shadow: none !important;
+  }
+
+  .text-muted-foreground {
+    color: #4b5563 !important; /* darker grey for print visibility */
+  }
+
+  /* Force page breaks neatly on cards */
+  .card,
+  div[role="region"] {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}

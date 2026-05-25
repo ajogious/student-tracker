@@ -8,6 +8,7 @@ async function getStudents() {
   return await prisma.student.findMany({
     orderBy: { createdAt: "desc" },
     include: {
+      sponsor: true,
       _count: {
         select: { exams: true, projects: true },
       },
@@ -18,12 +19,24 @@ async function getStudents() {
 export default async function DashboardPage() {
   const students = await getStudents();
 
-  // Compute stats
+  // Compute exams taken this month
+  const startOfMonth = new Date();
+  startOfMonth.setDate(1);
+  startOfMonth.setHours(0, 0, 0, 0);
+
+  const examsThisMonth = await prisma.exam.count({
+    where: {
+      dateTaken: {
+        gte: startOfMonth,
+      },
+    },
+  });
+
   const stats = {
     total: students.length,
     active: students.filter((s) => s.status === "ACTIVE").length,
     completed: students.filter((s) => s.status === "COMPLETED").length,
-    dropped: students.filter((s) => s.status === "DROPPED").length,
+    examsThisMonth,
   };
 
   return (

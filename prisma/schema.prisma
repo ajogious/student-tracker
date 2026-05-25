@@ -23,12 +23,13 @@ model Student {
   projects          Project[]
   sponsor           Sponsor?
   topUpUniversities TopUpUniversity[]
+  auditLogs         AuditLog[]
 }
 
 model Exam {
   id        String   @id @default(cuid())
   examName  String
-  score     Float
+  semester  String
   dateTaken DateTime
   createdAt DateTime @default(now())
 
@@ -88,3 +89,28 @@ enum University {
   LINCOLN
   EASTERN_MEDITERRANEAN
 }
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      UserRole @default(STAFF)
+  createdAt DateTime @default(now())
+}
+
+enum UserRole {
+  ADMIN
+  STAFF
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  action      String
+  details     String
+  performedBy String
+  createdAt   DateTime @default(now())
+
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId   String
+}
+

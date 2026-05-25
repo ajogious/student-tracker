@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/session";
 import { NextRequest, NextResponse } from "next/server";
 import { TrackType } from "@prisma/client";
 
@@ -8,6 +9,7 @@ export async function GET() {
     const students = await prisma.student.findMany({
       orderBy: { createdAt: "desc" },
       include: {
+        sponsor: true,
         _count: {
           select: { exams: true, projects: true },
         },
@@ -25,6 +27,14 @@ export async function GET() {
 // ---- POST create new student ----
 export async function POST(req: NextRequest) {
   try {
+    const session = await getSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized: Please log in." },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
 
     const {
@@ -71,7 +81,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // --- Create student + sponsor in one transaction ---
+    // --- Create student + sponsor + audit log in one transaction ---
     const student = await prisma.$transaction(async (tx) => {
       const newStudent = await tx.student.create({
         data: {
@@ -96,12 +106,21 @@ export async function POST(req: NextRequest) {
         });
       }
 
+      // Add registration audit trail log
+      await tx.auditLog.create({
+        data: {
+          studentId: newStudent.id,
+          action: "Student Registered",
+          details: `Student registered with program ${course} (ID: ${studentId})`,
+          performedBy: session.email,
+        },
+      });
+
       return newStudent;
     });
 
     return NextResponse.json({ success: true, data: student }, { status: 201 });
   } catch (error) {
-    console.error("POST /api/students error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to create student", error },
       { status: 500 },

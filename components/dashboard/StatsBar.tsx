@@ -4,20 +4,20 @@ interface StatsBarProps {
   total: number;
   active: number;
   completed: number;
-  dropped: number;
+  examsThisMonth: number;
 }
 
 export default function StatsBar({
   total,
   active,
   completed,
-  dropped,
+  examsThisMonth,
 }: StatsBarProps) {
   const stats = [
     { label: "Total Students", value: total, color: "text-foreground" },
-    { label: "Active", value: active, color: "text-green-600" },
-    { label: "Completed", value: completed, color: "text-blue-600" },
-    { label: "Dropped", value: dropped, color: "text-destructive" },
+    { label: "Active", value: active, color: "text-green-600 dark:text-green-400" },
+    { label: "Completed", value: completed, color: "text-blue-600 dark:text-blue-400" },
+    { label: "Exams This Month", value: examsThisMonth, color: "text-indigo-600 dark:text-indigo-400" },
   ];
 
   return (

@@ -116,7 +116,10 @@ export default function NewStudentForm() {
                         const prefix = "Student";
                         let formatted = "";
                         for (let i = 0; i < val.length; i++) {
-                          if (i < prefix.length && val[i].toLowerCase() === prefix[i].toLowerCase()) {
+                          if (
+                            i < prefix.length &&
+                            val[i].toLowerCase() === prefix[i].toLowerCase()
+                          ) {
                             formatted += prefix[i];
                           } else {
                             formatted += val[i];

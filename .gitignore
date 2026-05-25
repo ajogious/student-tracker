@@ -41,3 +41,14 @@ yarn-error.log*
 next-env.d.ts
 
 /lib/generated/prisma
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+
+# seed artifact
+/prisma/seed.js
+

@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aptech Student Tracker
 
-## Getting Started
+A premium, secure web application designed for Center Academic Heads (CAH) to track and manage student academic records, projects, exams, top-up university options, and sponsor details.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **🔑 Secure Session Authentication**: Cookie-based login with cryptographic signature verification (HMAC-SHA256) to prevent session tampering.
+- **🛡️ Role-Based Access Controls**: 
+  - **Center Academic Head (CAH)**: Full read, write, edit, and deletion privileges.
+  - **Staff Members**: Authorized to view and update student records, but restricted from deleting data.
+- **📝 Exam & Project Tracking**: Complete CRUD (Create, Read, Update, Delete) capability on individual exams and semester projects.
+- **📅 Update History (Audit Trail)**: Dynamic transactional logs tracking every student profile change, capturing *what* was modified, *when*, and *who* did it.
+- **📤 Export & PDF Print Reports**: One-click dashboard data exports to CSV, and highly styled `@media print` layout formatting for printing student registrations as official paper sheets.
+- **⚡ Premium UX/UI**: Mobile-responsive layout, Next.js streaming skeletons, and glassmorphic micro-animations.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: Next.js 16 (App Router)
+- **Database**: PostgreSQL (Neon Serverless)
+- **ORM**: Prisma
+- **UI Components**: Base UI (`@base-ui/react`) & Tailwind CSS v4
+- **Form Validation**: React Hook Form + Zod
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## ⚙️ Local Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the Repository** and navigate to the project directory.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+3. **Configure Environment Variables**:
+   Create a `.env` file in the root directory:
+   ```env
+   DATABASE_URL="your-postgresql-connection-string"
+   SESSION_SECRET="your-32-character-random-secret"
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Initialize Database Schema & Generate Prisma Client**:
+   ```bash
+   npx prisma db push
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. **Seed the CAH Admin User**:
+   ```bash
+   node prisma/seed.js
+   ```
+   *Seeded account details:*
+   - **Email**: `ajogious@gmail.com`
+   - **Password**: `#Mawaddah2022`
+
+6. **Start the Development Server**:
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) to log in.
+
+---
+
+## 🔒 Production Security Checklist
+
+- **Secrets Management**: Never commit your `.env` file. Ensure `DATABASE_URL` and `SESSION_SECRET` are supplied as environment variables on your deployment platform (e.g., Vercel, Netlify, Render).
+- **Session Protection**: The session signature uses HMAC-SHA256. In production, the session cookie is automatically marked `Secure`, requiring HTTPS connection.
+- **Console Logs Cleaned**: All testing/debugging console logs have been removed to keep client and server production logs clean.
