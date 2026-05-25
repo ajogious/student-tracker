@@ -36,7 +36,7 @@ export default async function DashboardPage() {
             Track and manage all enrolled students
           </p>
         </div>
-        <Button render={<Link href="/dashboard/students/new" />}>
+        <Button render={<Link href="/dashboard/students/new" />} nativeButton={false}>
           + New Student
         </Button>
       </div>

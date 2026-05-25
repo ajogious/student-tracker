@@ -135,7 +135,7 @@ export default function StudentTable({ students }: StudentTableProps) {
                     <StatusBadge status={student.status} />
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button render={<Link href={`/dashboard/students/${student.id}`} />} size="sm" variant="ghost">
+                    <Button render={<Link href={`/dashboard/students/${student.id}`} />} size="sm" variant="ghost" nativeButton={false}>
                       View →
                     </Button>
                   </TableCell>
